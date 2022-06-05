@@ -1,0 +1,45 @@
+version: '3.7'
+networks:
+  youth:
+services:
+  nginx:
+    image: nginx:1.16.1
+    ports:
+      - "9000:80"
+    volumes: 
+      - ./docker/nginx/:/etc/nginx/conf.d/
+      - ./src:/var/www/html
+    networks:
+      - youth
+  phpfpm:
+    build: ./docker/phpfpm
+    volumes: 
+      - ./src:/var/www/html
+    expose: 
+      - 8000
+    networks:
+      - youth
+  mysql:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: youth_core
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    ports: 
+      - 3300:3306
+    volumes: 
+      - ./docker/mysql:/var/lib/mysql/
+    networks:
+      - youth
+  redis:
+    image: redis:6.2
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
+    ports:
+      - 6370:6379
+    volumes:
+      - ./docker/redisdata:/data
+    networks:
+      - youth
