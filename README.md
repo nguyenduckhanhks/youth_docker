@@ -5,7 +5,7 @@ exec container php:
 # docker exec -it <tên container php> /bin/bash
 # cd project; run composer install
 Chạy container khi sau khi tắt:
-# docker-composer start
+# start.sh
 Note:
 # host của mysql, redis là mysql và redis
 # không cần run php artisan serve
