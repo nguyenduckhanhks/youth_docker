@@ -5,12 +5,13 @@ services:
   nginx:
     image: nginx:1.16.1
     ports:
-      - "9000:80"
-      - "8000:81"
-      - "7000:82"
+      - "443:443"
     volumes: 
       - ./docker/nginx/:/etc/nginx/conf.d/
       - ./src:/var/www/html
+      - ./docker/letsencrypt/:/etc/letsencrypt/
+    extra_hosts:
+      - "gateway.docker.internal:host-gateway"
     networks:
       - youth
   phpfpm:

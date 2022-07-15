@@ -1,1 +1,5 @@
-./src
+./src/
+
+docker/letsencrypt/
+docker/mysql/
+docker/redisdata/
